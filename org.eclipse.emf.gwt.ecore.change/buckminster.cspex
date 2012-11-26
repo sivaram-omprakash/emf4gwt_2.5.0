@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cs:cspecExtension xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0">
 	<cs:dependencies>
-		<cs:dependency name="org.eclipse.emf.gwt.build.helper" componentType="buckminster" filter="(without.gdt=true)" />
+		<cs:dependency name="com.cloudsmith.hammer.gwt.build.helper" componentType="buckminster" filter="(without.gdt=true)" />
 	</cs:dependencies>
 
 	<cs:artifacts>
@@ -12,15 +12,15 @@
 		<cs:private name="replace.classpath.containers" actor="ant">
 			<cs:documentation>
 				Replace selected classpath containers in the .classpath file according to the
-				"container.replacement.data" prerequisite.
+				"classpath.replacement.data" prerequisite.
 			</cs:documentation>
 			<cs:actorProperties>
-				<cs:property key="buildFile" value="wrapper.ant" />
+				<cs:property key="buildFile" value="helper.ant" />
 			</cs:actorProperties>
 			<cs:prerequisites>
-				<cs:attribute component="org.eclipse.emf.gwt.build.helper" name="helper.script" alias="helper.script" />
-				<cs:attribute component="org.eclipse.emf.gwt.build.helper" name="google.classpath.containers.replacement.data"
-					alias="container.replacement.data" />
+				<cs:attribute component="com.cloudsmith.hammer.gwt.build.helper" name="helper.script" alias="helper.script" />
+				<cs:attribute component="com.cloudsmith.hammer.gwt.build.helper" name="google.classpath.containers.replacement.data"
+					alias="classpath.replacement.data" />
 				<cs:attribute name="classpath.file" alias="classpath.file" />
 			</cs:prerequisites>
 		</cs:private>
@@ -32,9 +32,22 @@
 		</cs:public>
 	</cs:actions>
 
-	<cs:alterGroups>
-		<cs:private name="jar.contents">
-			<cs:attribute name="eclipse.build.source" />
-		</cs:private>
-	</cs:alterGroups>
+	<cs:actions>
+		<cs:public name="bundle.jar" actor="ant">
+			<cs:actorProperties>
+				<cs:property key="buildFile" value="helper.ant" />
+				<cs:property key="targets" value="create.bundle.jar.with.source.classpath" />
+			</cs:actorProperties>
+			<cs:prerequisites>
+				<cs:attribute name="manifest" alias="manifest" />
+				<cs:attribute name="jar.contents" alias="action.requirements" />
+				<cs:attribute name="eclipse.build.source" alias="jar.sources" />
+			</cs:prerequisites>
+			<cs:products alias="action.output" base="${buckminster.output}/jar/" fileCount="1" upToDatePolicy="COUNT" />
+		</cs:public>
+	</cs:actions>
+
+	<cs:alterActions>
+		<cs:remove name="bundle.jar" />
+	</cs:alterActions>
 </cs:cspecExtension>

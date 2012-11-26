@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Build Tasks">
+	<import file="${buckminster.pdetasks}" />
+
 	<!--
 		this is just a hack to avoid a warning on the import task below;
 		under normal circumstances the ${sp:helper.script} has a defined value
@@ -8,4 +10,11 @@
 	<property name="sp:helper.script" value="${ant.file}" />
 
 	<import file="${sp:helper.script}" />
+
+	<target name="create.bundle.jar.with.source.classpath" depends="create.bundle.jar">
+		<pathconvert property="source.classpath">
+			<buckminster.valuepath value="${fs:jar.sources}" />
+		</pathconvert>
+		<echo message="${source.classpath}${path.separator}" file="${sp:action.output}/../.source.classpath" />
+	</target>
 </project>
