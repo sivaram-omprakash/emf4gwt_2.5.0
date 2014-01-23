@@ -55,7 +55,8 @@ public final class CommonPlugin extends EMFPlugin
   @Override
   public String getString(String key, boolean translate)
   {
-    if ("_UI_AbstractCommand_label".equals(key)) return PROPERTIES.abstractCommandLabel();
+System.out.println("test");   
+   if ("_UI_AbstractCommand_label".equals(key)) return PROPERTIES.abstractCommandLabel();
     else if ("_UI_AbstractCommand_description".equals(key)) return PROPERTIES.abstractCommandDescription();
     else if ("_UI_CommandWrapper_label".equals(key)) return PROPERTIES.commandWrapperLabel();
     else if ("_UI_CommandWrapper_description".equals(key)) return PROPERTIES.commandWrapperDescription();
